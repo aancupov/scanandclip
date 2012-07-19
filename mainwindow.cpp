@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect( form->btPrev, SIGNAL(clicked()), this, SLOT(slPrevImage()) );
     connect( form->btNext, SIGNAL(clicked()), this, SLOT(slNextImage()) );
     connect( form->tableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slViewString()));
+
+    connect( form->btRecognize, SIGNAL(clicked()), this, SLOT(slRecognise()) );
+    connect( form->btStudy, SIGNAL(clicked()), this, SLOT(slStudy()));
+
 }
 
 MainWindow::~MainWindow()
@@ -66,6 +70,98 @@ void MainWindow::slNextImage()
 void MainWindow::slViewString()
 {
     viewString();
+}
+
+void MainWindow::slRecognise()
+{
+    int curX, curY;
+    int curRow = form->tableWidget->currentRow();
+    int inPage = curRow % 50;
+    int page = curRow / 50;
+
+    for(; curRow < form->tableWidget->rowCount(); curRow++)
+    {
+        if(curRow/50 > page) break;
+        inPage = curRow % 50;
+        printf("-------------------------\n");
+        printf("%s\n",qPrintable(form->tableWidget->item(curRow,2)->text()));
+    if(inPage/25 == 0)  // в левом столбце
+    {
+        curX = ci->LXcenter+300;
+        curY = ci->LYcenter+(ci->DYcenter - ci->LYcenter)*45/500 + (ci->DYcenter - ci->LYcenter)*445/500/25 * (inPage%25);
+    }
+    else                // в правом столбце
+    {
+        curX = ci->LXcenter+1390;
+        curY = ci->RYcenter+(ci->DYcenter - ci->RYcenter)*45/500 + (ci->DYcenter - ci->RYcenter)*445/500/25 * (inPage%25);
+    }
+
+    if(!sceneForRecognise) delete(sceneForRecognise);
+    sceneForRecognise = new QGraphicsScene(this);
+    sceneForRecognise->setSceneRect(curX,curY,800,90);
+    sceneForRecognise->addPixmap(QBitmap::fromImage(*(ci->img)));
+    form->grForRecognise->setScene(sceneForRecognise);
+
+    //int minx=0, miny=0, w=0, h=0;
+    //ci->quoter(curX+550,curY,200/3,90,&minx,&miny,&w,&h);
+
+    form->tableWidget->item(curRow,2)->setText(ci -> recognise(curX+550, curY, 201, 90));
+    //form->tableWidget->item(curRow,2)->setText(ci -> recognise(minx, miny, w, h));
+    }
+    viewString();
+}
+
+void MainWindow::slStudy()
+{
+    int curX, curY;
+    int curRow = form->tableWidget->currentRow();
+    int inPage = curRow % 50;
+
+    if(inPage/25 == 0)  // в левом столбце
+    {
+        curX = ci->LXcenter+300;
+        curY = ci->LYcenter+(ci->DYcenter - ci->LYcenter)*45/500 + (ci->DYcenter - ci->LYcenter)*445/500/25 * (inPage%25);
+    }
+    else                // в правом столбце
+    {
+        curX = ci->LXcenter+1390;
+        curY = ci->RYcenter+(ci->DYcenter - ci->RYcenter)*45/500 + (ci->DYcenter - ci->RYcenter)*445/500/25 * (inPage%25);
+    }
+
+
+    /*for(int i=0;i<w;i++)
+        ci->img->setPixel(minx+i, miny, 1);
+    for(int i=0;i<w;i++)
+        ci->img->setPixel(minx+i, miny+h, 1);
+    for(int i=0;i<h;i++)
+        ci->img->setPixel(minx, miny+i, 1);
+    for(int i=0;i<h;i++)
+        ci->img->setPixel(minx+w, miny+i, 1);*/
+
+    /*for(int i=0; i<90; i++)
+        ci->img->setPixel(curX+550, curY+i, 1);
+    for(int i=10; i<80; i++)
+        ci->img->setPixel(curX+550+100/3, curY+i, 1);
+    for(int i=0; i<90; i++)
+        ci->img->setPixel(curX+550+200/3, curY+i, 1);
+    for(int i=10; i<80; i++)
+        ci->img->setPixel(curX+550+200/2, curY+i, 1);
+    for(int i=0; i<90; i++)
+        ci->img->setPixel(curX+550+2*200/3, curY+i, 1);
+    for(int i=0; i<90; i++)
+        ci->img->setPixel(curX+750, curY+i, 1);
+    for(int i=0; i<200; i++)
+        ci->img->setPixel(curX+550+i, curY+45, 1);*/
+
+    if(!sceneForRecognise) delete(sceneForRecognise);
+    sceneForRecognise = new QGraphicsScene(this);
+    sceneForRecognise->setSceneRect(curX,curY,800,90);
+    sceneForRecognise->addPixmap(QBitmap::fromImage(*(ci->img)));
+    form->grForRecognise->setScene(sceneForRecognise);
+
+    ci -> study(curX+550, curY, 201, 90, form->tableWidget->item(curRow,2)->text());
+
+    //viewString();
 }
 
 void MainWindow::loadImage()
@@ -105,11 +201,15 @@ void MainWindow::viewString()
     int inPage = curRow % 50;
 
     if(inPage/25 == 0)  // в левом столбце
-        curX = ci->LXcenter+290;
+    {
+        curX = ci->LXcenter+300;
+        curY = ci->LYcenter+(ci->DYcenter - ci->LYcenter)*45/500 + (ci->DYcenter - ci->LYcenter) * (inPage%25) * 445/500/25;
+    }
     else                // в правом столбце
+    {
         curX = ci->LXcenter+1390;
-
-    curY = ci->LYcenter+265+112*(inPage%25);
+        curY = ci->RYcenter+(ci->DYcenter - ci->RYcenter)*45/500 + (ci->DYcenter - ci->RYcenter) * (inPage%25) * 445/500/25;
+    }
 
     if(!sceneForRecognise) delete(sceneForRecognise);
     sceneForRecognise = new QGraphicsScene(this);
@@ -117,7 +217,6 @@ void MainWindow::viewString()
     sceneForRecognise->addPixmap(QBitmap::fromImage(*(ci->img)));
     form->grForRecognise->setScene(sceneForRecognise);
 }
-
 
 void MainWindow::slViewTable(int ch)
 {
@@ -128,20 +227,25 @@ void MainWindow::viewTable()
 {
     QTableWidgetItem* pqtwi = 0;
     QString t;
-    int vgr;
 
     //Если не первая точка, то сохраним данные предыдущей точки
     t="";
     if(currentTochka != t)
     {
 
-        vgr = (form->tableWidget->rowCount());
-        for(int i=0; i < vgr; i++)
+        for(int i=0; g->next(); i++)
         {
             t=form->tableWidget->item(i,2)->text();
             g->update(currentTochka, form->tableWidget->item(i,0)->text().toInt(), form->tableWidget->item(i,2)->text().toInt());
             pqtwi = form->tableWidget->item(i,0);
-            delete pqtwi;
+            //printf("pqtwi0=%d\n",pqtwi);
+            if(pqtwi) delete pqtwi;
+            pqtwi = form->tableWidget->item(i,1);
+            //printf("pqtwi1=%d\n",pqtwi);
+            if(pqtwi) delete pqtwi;
+            pqtwi = form->tableWidget->item(i,2);
+            //printf("pqtwi2=%d\n",pqtwi);
+            if(pqtwi) delete pqtwi;
 
         }
     }

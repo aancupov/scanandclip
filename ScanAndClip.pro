@@ -17,16 +17,27 @@ SOURCES += main.cpp\
     properties.cpp \
     goods.cpp \
     clipimages.cpp \
-    selectimages.cpp
+    selectimages.cpp \
+    ../../QtSDK/testBaseRecognise/baserecognise.cpp \
+    ../../QtSDK/testPerceptron/perceptron.cpp \
+    ../../QtSDK/testPerceptron/neuron.cpp
 
 HEADERS  += mainwindow.h \
     field.h \
     properties.h \
     goods.h \
     clipimages.h \
-    selectimages.h
+    selectimages.h \
+    ../../QtSDK/testBaseRecognise/baserecognise.h \
+    ../../QtSDK/testPerceptron/neuron.h \
+    ../../QtSDK/testPerceptron/perceptron.h
 
 FORMS    += mainwindow.ui
+
+
+
+
+
 
 
 

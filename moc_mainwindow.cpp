@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Thu Dec 22 16:45:34 2011
+** Created: Thu Jul 19 15:05:00 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -37,6 +37,8 @@ static const uint qt_meta_data_MainWindow[] = {
       55,   11,   11,   11, 0x0a,
       72,   11,   11,   11, 0x0a,
       84,   11,   11,   11, 0x0a,
+      92,   11,   11,   11, 0x0a,
+     106,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -44,7 +46,8 @@ static const uint qt_meta_data_MainWindow[] = {
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0slPrevImage()\0slNextImage()\0"
     "slViewString()\0slViewTable(int)\0"
-    "slSaveXML()\0slSum()\0"
+    "slSaveXML()\0slSum()\0slRecognise()\0"
+    "slStudy()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -82,9 +85,11 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: slViewTable((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 4: slSaveXML(); break;
         case 5: slSum(); break;
+        case 6: slRecognise(); break;
+        case 7: slStudy(); break;
         default: ;
         }
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }

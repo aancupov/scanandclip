@@ -148,12 +148,6 @@ bool Goods::save(QString& xmlFile)
         file.write(qPrintable(exp));
         file.close();
     }
-    printf("При сохранении:%d\n",size);
-    printf("При сохранении:%d\n",size);
-    printf("При сохранении:%d\n",size);
-    printf("При сохранении:%d\n",size);
-    printf("При сохранении:%d\n",size);
-    printf("При сохранении:%d\n",size);
 }
 
 void Goods::startWithFilter(QString tochka)

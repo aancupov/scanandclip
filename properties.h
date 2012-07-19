@@ -17,6 +17,8 @@ public:
             *fieldDownLeft;
 
     QString  fileForExchange;
+    QString  fileForBaseRecognise;
+    QString  fileForPerceptron;
     QString  path;
 
 protected:

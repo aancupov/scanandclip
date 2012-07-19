@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Dec 22 16:45:21 2011
+** Created: Wed Jul 4 11:42:54 2012
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -51,6 +51,7 @@ public:
     QComboBox *tochka;
     QPushButton *btSaveXML;
     QPushButton *btRecognize;
+    QPushButton *btStudy;
     QTableWidget *tableWidget;
     QLabel *lbSum;
     QMenuBar *menuBar;
@@ -172,6 +173,11 @@ public:
 
         horizontalLayout->addWidget(btRecognize);
 
+        btStudy = new QPushButton(verticalLayoutWidget_2);
+        btStudy->setObjectName(QString::fromUtf8("btStudy"));
+
+        horizontalLayout->addWidget(btStudy);
+
 
         verticalLayout_3->addLayout(horizontalLayout);
 
@@ -220,6 +226,7 @@ public:
 #endif // QT_NO_ACCESSIBILITY
         btSaveXML->setText(QApplication::translate("MainWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214 (Alt-&S)", 0, QApplication::UnicodeUTF8));
         btRecognize->setText(QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\267\320\275\320\260\321\202\321\214 (Alt-&R)", 0, QApplication::UnicodeUTF8));
+        btStudy->setText(QApplication::translate("MainWindow", "\320\236\320\261\321\203\321\207\320\270\321\202\321\214 (Alt-&T)", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", 0, QApplication::UnicodeUTF8));
         lbSum->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

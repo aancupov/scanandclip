@@ -13,6 +13,8 @@ Properties::Properties()
 
     path = QString("/home/andrew/all/export/");
     fileForExchange = path + "obmen.xml"; //c:\\export\\obmen.xml";
+    fileForBaseRecognise = path + "baserec.xml"; //c:\\export\\obmen.xml";
+    fileForPerceptron = path + "perceptron.xml";
 
 }
 

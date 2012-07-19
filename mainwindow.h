@@ -32,11 +32,13 @@ public slots:
     void slSaveXML();
     void slSum();
 
+    void slRecognise();
+    void slStudy();
+
 private:
     Ui::MainWindow *ui;
     Ui_MainWindow *form;
     QPainter      *mypainter;
-
     QGraphicsScene *sceneTochka;
     QGraphicsScene *sceneNuberList;
     QGraphicsScene *sceneForRecognise;
