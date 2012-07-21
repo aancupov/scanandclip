@@ -4,7 +4,7 @@
 #include <QtGui>
 #include "properties.h"
 #include "/home/andrew/QtSDK/testBaseRecognise/baserecognise.h"
-#include "/home/andrew/QtSDK/testPerceptron/perceptron.h"
+#include "managerofalgorithms.h"
 
 class clipImages
 {
@@ -23,7 +23,7 @@ public:
 private:
     baseRecognise *brec;
     QImage       *bimg;
-    perceptron   *perc;
+    managerOfAlgorithms *malg;
     bool findLeftBlock(int x, int y, int w, int h);                 //найден левый блок
     bool findRightBlock(int x, int y, int w, int h);                //найден правыйблок
     bool findDownBlock(int x, int y, int w, int h);                 //найден нижний блок

@@ -85,28 +85,29 @@ void MainWindow::slRecognise()
         inPage = curRow % 50;
         printf("-------------------------\n");
         printf("%s\n",qPrintable(form->tableWidget->item(curRow,2)->text()));
-    if(inPage/25 == 0)  // в левом столбце
-    {
-        curX = ci->LXcenter+300;
-        curY = ci->LYcenter+(ci->DYcenter - ci->LYcenter)*45/500 + (ci->DYcenter - ci->LYcenter)*445/500/25 * (inPage%25);
-    }
-    else                // в правом столбце
-    {
-        curX = ci->LXcenter+1390;
-        curY = ci->RYcenter+(ci->DYcenter - ci->RYcenter)*45/500 + (ci->DYcenter - ci->RYcenter)*445/500/25 * (inPage%25);
-    }
+        if(inPage/25 == 0)  // в левом столбце
+        {
+            curX = ci->LXcenter+300;
+            curY = ci->LYcenter+(ci->DYcenter - ci->LYcenter)*45/500 + (ci->DYcenter - ci->LYcenter)*445/500/25 * (inPage%25);
+        }
+        else                // в правом столбце
+        {
+            curX = ci->LXcenter+1390;
+            curY = ci->RYcenter+(ci->DYcenter - ci->RYcenter)*45/500 + (ci->DYcenter - ci->RYcenter)*445/500/25 * (inPage%25);
+        }
 
-    if(!sceneForRecognise) delete(sceneForRecognise);
-    sceneForRecognise = new QGraphicsScene(this);
-    sceneForRecognise->setSceneRect(curX,curY,800,90);
-    sceneForRecognise->addPixmap(QBitmap::fromImage(*(ci->img)));
-    form->grForRecognise->setScene(sceneForRecognise);
+        if(!sceneForRecognise) delete(sceneForRecognise);
+        sceneForRecognise = new QGraphicsScene(this);
+        sceneForRecognise->setSceneRect(curX,curY,800,90);
+        sceneForRecognise->addPixmap(QBitmap::fromImage(*(ci->img)));
+        form->grForRecognise->setScene(sceneForRecognise);
 
-    //int minx=0, miny=0, w=0, h=0;
-    //ci->quoter(curX+550,curY,200/3,90,&minx,&miny,&w,&h);
+        //int minx=0, miny=0, w=0, h=0;
+        //ci->quoter(curX+550,curY,200/3,90,&minx,&miny,&w,&h);
 
-    form->tableWidget->item(curRow,2)->setText(ci -> recognise(curX+550, curY, 201, 90));
-    //form->tableWidget->item(curRow,2)->setText(ci -> recognise(minx, miny, w, h));
+        form->tableWidget->item(curRow,2)->setText(ci -> recognise(curX+550, curY, 201, 90));
+        //form->tableWidget->item(curRow,2)->setText(ci -> recognise(minx, miny, w, h));
+        break;
     }
     viewString();
 }

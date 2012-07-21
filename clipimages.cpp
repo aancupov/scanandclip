@@ -7,7 +7,8 @@ clipImages::clipImages()
     brec = new baseRecognise(Properties::instance().fileForBaseRecognise);
     brec->load();
 
-    perc = new perceptron(Properties::instance().fileForPerceptron,10,90*67);
+    malg = new managerOfAlgorithms(bimg);
+    //perc = new perceptron(Properties::instance().fileForPerceptron,10,90*67);
 }
 
 bool clipImages::findLeftBlock(int x, int y, int w, int h)
@@ -221,59 +222,38 @@ QString clipImages::recognise(int x, int y, int w, int h)
     QString s="", rec="";
 
     ww=w/3;
-    QVector<int> *inv = new QVector<int>(ww*h);
-
+    //QVector<int> *inv = new QVector<int>(ww*h);
+    printf("x=%d y=%d\n",x,y);
     //Первая цифра
     //printf("%s\n",qPrintable(digital(x, y, w/3, h)));
-    minx=0, miny=0, ww=0, hh=0;
+    //minx=0, miny=0, ww=0, hh=0;
     //quoter(x,y,w/3,h,&minx,&miny,&ww,&hh);
     //s = normalDigit(minx, miny, ww, hh);
     //if(s=="")
         //rec =  brec->recognise(digital(minx, miny, ww, hh));
     //else rec = s;
-    for(int i=0;i<ww;i++)
-    {
-        for(int j=0;j<h;j++)
-        {
-            if(isBlack(x+i,y+j)) inv->replace(i*h+j,1);
-            else inv->replace(i*h+j,0);
-        }
-    }
-    QVector<float>* rez = perc->recognize(inv);
-    int maxd=-1; float maxp=0.0;
-    printf("=================\n");
-    for(int i=0;i<10;i++)
-    {
-        if(rez->at(i) > maxp)
-        {
-            maxp=rez->at(i);
-            maxd=i;
-        }
-        printf("%5.3f %5.3f",maxp,rez->at(i));
-    }
-    printf("\n");
-    if(maxd > -1) rec=QString('0'+maxd);
-    else rec="";
-    return(rec);
+    rec = malg->recognize(x,y,ww,h);
 
     //Вторая цифра
     //printf("%s\n",qPrintable(digital(x+w/3, y, w/3, h)));
-    minx=0, miny=0, ww=0, hh=0;
-    quoter(x+w/3,y,w/3,h,&minx,&miny,&ww,&hh);
+    //minx=0, miny=0, ww=0, hh=0;
+    //quoter(x+w/3,y,w/3,h,&minx,&miny,&ww,&hh);
     //s = normalDigit(minx, miny, ww, hh);
     //if(s=="")
-        rec += brec->recognise(digital(minx, miny, ww, hh));
+        rec += malg->recognize(x+ww,y,ww,h);
+                //brec->recognise(digital(minx, miny, ww, hh));
     //else rec += s;
 
     //Третья цифра
     //printf("%s\n",qPrintable(digital(x+2*w/3, y, w/3, h)));
-    minx=0, miny=0, ww=0, hh=0;
-    quoter(x+2*w/3,y,w/3,h,&minx,&miny,&ww,&hh);
+    //minx=0, miny=0, ww=0, hh=0;
+    //quoter(x+2*w/3,y,w/3,h,&minx,&miny,&ww,&hh);
     //s = normalDigit(minx, miny, ww, hh);
     //if(s=="")
-    rec += brec->recognise(digital(minx, miny, ww, hh));
+    rec += malg->recognize(x+2*ww,y,ww,h);
+            //brec->recognise(digital(minx, miny, ww, hh));
     //else rec += s;
-    printf("dig = %s\n",qPrintable(s));
+    //printf("dig = %s\n",qPrintable(s));
     return(rec);
 }
 
@@ -370,7 +350,7 @@ void clipImages::study(int x, int y, int w, int h, QString digits3)
     int minx=0, miny=0, ww=0, hh=0;
     ww=w/3;
     QVector<int> *inv = new QVector<int>(ww*h);
-    printf("digs=%s\n",qPrintable(digits3));
+    //printf("digs=%s %d %d\n",qPrintable(digits3),x,y);
     //Первая цифра
     if(digits3.size()>0)
     {
@@ -379,16 +359,9 @@ void clipImages::study(int x, int y, int w, int h, QString digits3)
         quoter(x,y,w/3,h,&minx,&miny,&ww,&hh);
         brec->study(digital(minx, miny, ww, hh), QString(digits3.at(0)));*/
         printf("blok1\n");
-        for(int i=0;i<ww;i++)
-        {
-            for(int j=0;j<h;j++)
-            {
-                if(isBlack(x+i,y+j)) inv->replace(i*h+j,1);
-                else inv->replace(i*h+j,0);
-            }
-        }
         //for(int i=0;i<50;i++)
-        perc->study(inv,QString(digits3.at(0)));
+        malg->study(x,y,ww,h,QString(digits3.at(0)));
+        return;
     }
     //Вторая цифра
     if(digits3.size()>1)
@@ -397,16 +370,10 @@ void clipImages::study(int x, int y, int w, int h, QString digits3)
         /*minx=0, miny=0, ww=0, hh=0;
         quoter(x+w/3,y,w/3,h,&minx,&miny,&ww,&hh);
         brec->study(digital(minx, miny, ww, hh), QString(digits3.at(1)));*/
-        for(int i=0;i<ww;i++)
-        {
-            for(int j=0;j<h;j++)
-            {
-                if(isBlack(x+ww+i,y+j)) inv->replace(i*h+j,1);
-                else inv->replace(i*h+j,0);
-            }
-        }
         //for(int i=0;i<50;i++)
-            perc->study(inv,QString(digits3.at(1)));
+        printf("blok2\n");
+
+        malg->study(x+ww,y,ww,h,QString(digits3.at(1)));
     }
     //Третья цифра
     if(digits3.size()>2)
@@ -415,20 +382,13 @@ void clipImages::study(int x, int y, int w, int h, QString digits3)
         /*minx=0, miny=0, ww=0, hh=0;
         quoter(x+2*w/3,y,w/3,h,&minx,&miny,&ww,&hh);
         brec->study(digital(minx, miny, ww, hh), QString(digits3.at(2)));*/
-        for(int i=0;i<ww;i++)
-        {
-            for(int j=0;j<h;j++)
-            {
-                if(isBlack(x+2*ww+i,y+j)) inv->replace(i*h+j,1);
-                else inv->replace(i*h+j,0);
-            }
-        }
         //for(int i=0;i<50;i++)
-            perc->study(inv,QString(digits3.at(2)));
+        printf("blok3\n");
+        malg->study(x+ww*2,y,ww,h,QString(digits3.at(2)));
 
     }
     //brec->save();
-    perc->save(Properties::instance().fileForPerceptron);
+    //perc->save(Properties::instance().fileForPerceptron);
     printf("---------------\n");
 }
 

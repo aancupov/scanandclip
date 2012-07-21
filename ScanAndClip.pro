@@ -19,8 +19,10 @@ SOURCES += main.cpp\
     clipimages.cpp \
     selectimages.cpp \
     ../../QtSDK/testBaseRecognise/baserecognise.cpp \
-    ../../QtSDK/testPerceptron/perceptron.cpp \
-    ../../QtSDK/testPerceptron/neuron.cpp
+    algorithm.cpp \
+    vectorp.cpp \
+    managerofalgorithms.cpp \
+    perceptron.cpp
 
 HEADERS  += mainwindow.h \
     field.h \
@@ -29,10 +31,26 @@ HEADERS  += mainwindow.h \
     clipimages.h \
     selectimages.h \
     ../../QtSDK/testBaseRecognise/baserecognise.h \
-    ../../QtSDK/testPerceptron/neuron.h \
-    ../../QtSDK/testPerceptron/perceptron.h
+    algorithm.h \
+    vectorp.h \
+    managerofalgorithms.h \
+    perceptron.h
 
 FORMS    += mainwindow.ui
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
